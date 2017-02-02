@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="de">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>import java.io.IOException;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import org.apache.hadoop.io.*;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import org.apache.hadoop.mapreduce.Mapper;<a name="line.4"></a>
+<span class="sourceLineNo">005</span><a name="line.5"></a>
+<span class="sourceLineNo">006</span>/**<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * <a name="line.7"></a>
+<span class="sourceLineNo">008</span> * @author ------<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> */<a name="line.10"></a>
+<span class="sourceLineNo">011</span>public class MapVertex extends Mapper&lt;IntWritable, VertexWritable, IntWritable, VertexArrayWritable&gt;<a name="line.11"></a>
+<span class="sourceLineNo">012</span>{<a name="line.12"></a>
+<span class="sourceLineNo">013</span>        public void map (IntWritable key, VertexWritable vertex, Context context)<a name="line.13"></a>
+<span class="sourceLineNo">014</span>                throws IOException, InterruptedException <a name="line.14"></a>
+<span class="sourceLineNo">015</span>        {<a name="line.15"></a>
+<span class="sourceLineNo">016</span>                <a name="line.16"></a>
+<span class="sourceLineNo">017</span>                IntWritable[] k = new IntWritable[1];<a name="line.17"></a>
+<span class="sourceLineNo">018</span>                k[0] = key;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>                <a name="line.19"></a>
+<span class="sourceLineNo">020</span>                if(vertex.neu.values.length&gt;0) context.write(k[0], new VertexArrayWritable(vertex.neu.values,new IntWritable(2)));<a name="line.20"></a>
+<span class="sourceLineNo">021</span>                if(vertex.old.values.length&gt;0) context.write(k[0], new VertexArrayWritable(vertex.old.values,new IntWritable(2)));<a name="line.21"></a>
+<span class="sourceLineNo">022</span>                if(vertex.reachedBy.values.length&gt;0) context.write(k[0], new VertexArrayWritable(vertex.reachedBy.values,new IntWritable(3)));<a name="line.22"></a>
+<span class="sourceLineNo">023</span> <a name="line.23"></a>
+<span class="sourceLineNo">024</span>                if(vertex.neu.values.length&gt;0){<a name="line.24"></a>
+<span class="sourceLineNo">025</span>                        for(IntWritable i : vertex.reachedBy.values){<a name="line.25"></a>
+<span class="sourceLineNo">026</span>                                context.write(i, new VertexArrayWritable(vertex.neu.values,new IntWritable(1)));<a name="line.26"></a>
+<span class="sourceLineNo">027</span>                        }<a name="line.27"></a>
+<span class="sourceLineNo">028</span>                        <a name="line.28"></a>
+<span class="sourceLineNo">029</span>                        for(IntWritable i : vertex.neu.values){<a name="line.29"></a>
+<span class="sourceLineNo">030</span>                                context.write(i, new VertexArrayWritable(k,new IntWritable(3)));<a name="line.30"></a>
+<span class="sourceLineNo">031</span>                                context.write(i, new VertexArrayWritable(vertex.reachedBy.values,new IntWritable(3)));<a name="line.31"></a>
+<span class="sourceLineNo">032</span>                        }<a name="line.32"></a>
+<span class="sourceLineNo">033</span>                }<a name="line.33"></a>
+<span class="sourceLineNo">034</span>        }   <a name="line.34"></a>
+<span class="sourceLineNo">035</span>}<a name="line.35"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
